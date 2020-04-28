@@ -59,7 +59,13 @@ their frequencies. The pairs of products must be sorted by decreasing frequency.
 pairsMoreOneRDD = pairsFrequenciesRDD.filter(lambda line: line[1] > 1)
 
 # Decreasing frequency
-resultRDD = pairsMoreOneRDD.sortBy(lambda Ituple: Ituple[1], False).cache() #to retrieve immediately
+resultRDD = pairsMoreOneRDD.sortBy(lambda Ituple: Ituple[1], False).cache() #to retrieve immediately for task2
 
 # Store the result in the output folder
 resultRDD.saveAsTextFile(outputPath)
+
+'''
+Extend the implemented application in order to write on the standard output the top 10, most
+frequent, pairs of products and their frequencies.'''
+topTen = resultRDD.top(10)
+result2RDD = sc.parallelize(topTen).saveAsTextFile(outputPath+"Task2")
